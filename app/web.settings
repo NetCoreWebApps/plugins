@@ -1,0 +1,8 @@
+debug true
+name Web App Plugins
+port 5000
+contentRoot ~/../app
+webRoot ~/../app
+features CustomPlugin, OpenApiFeature, PostmanFeature, CorsFeature, ValidationFeature
+CustomPlugin { ShowProcessLinks: true }
+ValidationFeature { ScanAppHostAssemblies: true }
