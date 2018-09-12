@@ -16,7 +16,7 @@ title: Web App Plugins
     <a href="http://docs.servicestack.net/validation">Validators</a>, etc.
     contained within <b>.dll's</b> or <b>.exe's</b> dropped in a Web App's 
     <a href="https://github.com/NetCoreApps/WebApp/tree/master/src/apps/plugins/plugins">/plugins</a> folder which are auto-registered 
-    on startup. This source code for plugins used in this App were built from the .NET Core 2.0 projects in the
+    on startup. This source code for plugins used in this App were built from the .NET Core 2.1 projects in the
     <a href="https://github.com/NetCoreApps/WebApp/tree/master/src/example-plugins">/example-plugins</a> folder.
 </p>
 
@@ -72,7 +72,8 @@ title: Web App Plugins
     </li>
 </ul>
 
-{{ `<script>
+{{#raw appendTo scripts}}
+<script>
 var tab = queryStringParams()['tab'] || 'default-filters';
 $("#" + tab).addClass('active');
 $(".nav-link[href$=" + tab + "]").addClass('active');
@@ -80,7 +81,8 @@ $(".nav-link[href$=" + tab + "]").addClass('active');
 $("FORM").submit(function(){
     $("input[name=tab]").val($(".tab-pane.active").attr('id'))
 })
-</script>` | appendTo: scripts }}
+</script>
+{{/raw}}
 
 <style>
     .tab-content .result .output {
@@ -180,9 +182,44 @@ $("FORM").submit(function(){
 
 <hr>
 
-{{ 'templates/server-info.txt' | includeFile | assignTo: template }}
+{{#raw template}}
+<table class="table table-striped">
+<caption>Top 5 Local Disks</caption>
+<tr><th>Name</th><th>Type</th><th>Available Space</th><th>Total Free Space</th><th>Total Size</th></tr>
+{{ drives    | orderByDescending: it.TotalSize
+   | take(5) | assignTo: driveInfos }}
+{{#each driveInfos}}
+<tr>
+    <td>{{ Name | substringWithEllipsis(50) }}</td>
+    <td>{{ DriveType }} #{{ VolumeLabel }} ({{ DriveFormat }})</td>
+    <td>{{ AvailableFreeSpace / 1024 | format('n0') }} KB</td>
+    <td>{{ TotalFreeSpace / 1024 | format('n0') }} KB</td>
+    <td>{{ TotalSize / 1024 | format('n0') }} KB</td>
+</tr>
+{{/each}}
+</table>
 
-{{ "live-template" | partial({ rows:13, template }) }}
+<table class="table table-striped">
+<caption>Current Process</caption>
+<tr><th>Id</th><th>Name</th><th>CPU Time</th><th>User Time</th><th>Memory (current)</th>
+    <th>Memory (peak)</th><th>Active Threads</th></tr>
+{{#if currentProcess}}
+{{ currentProcess | assignTo: p }}
+{{ "h':'mm':'ss'.'FFF" | assignTo: fmtTime }}
+<tr>
+    <td>{{ Id }}</td>
+    <td>{{ p.ProcessName | substringWithEllipsis(15) }}</td>
+    <td>{{ p.TotalProcessorTime | timeFormat(fmtTime) }}</td>
+    <td>{{ p.UserProcessorTime | timeFormat(fmtTime) }}</td>
+    <td>{{ p.WorkingSet64 / 1024 | format('n0') }} KB</td>
+    <td>{{ p.PeakWorkingSet64 / 1024 | format('n0') }} KB</td>
+    <td>{{ p.Threads.Count }}</td>
+</tr>
+{{/if}}
+</table>
+{{/raw}}
+
+{{ "live-template" | partial({ rows:14, template }) }}
 
 <style>
     #server-info th:first-child {
@@ -244,7 +281,7 @@ $("FORM").submit(function(){
     <tr>
         <th>Process by Id</th>
         <td>
-            <div><a href="/process/{{ currentProcess | select: { it.Id } }}">/process/{{ currentProcess | select: { it.Id } }}</a></div>
+            <div><a href="/process/{{ currentProcess.Id }}">/process/{{ currentProcess.Id }}</a></div>
         </td>
     </tr>
     <tr>
@@ -326,7 +363,8 @@ $("FORM").submit(function(){
     </div>
 </div>
 
-{{ `<script>
+{{#raw appendTo scripts}}
+<script>
 $("#contacts").ajaxSubmit({
     success: function(r) {
         $("#contacts").find("input").val('');
@@ -355,7 +393,8 @@ fetchContacts();
 
 function resetContacts(){ $.getJSON("/contacts/reset", fetchContacts) }
 
-</script>` | appendTo: scripts }}
+</script>
+{{/raw}}
 
 <h3>ServiceStack Features</h3>
 
