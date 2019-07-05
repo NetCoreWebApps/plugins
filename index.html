@@ -1,5 +1,5 @@
 <!--
-title: Web App Plugins
+title: Sharp App Plugins
 -->
 
 {{ 'nameContains,tab' | importRequestParams }}
@@ -16,7 +16,7 @@ title: Web App Plugins
     <a href="https://sharpscript.net/docs/methods">Script Methods</a>
     <a href="https://sharpscript.net/docs/code-pages">Sharp Code Pages</a>,
     <a href="https://docs.servicestack.net/validation">Validators</a>, etc.
-    contained within <b>.dll's</b> or <b>.exe's</b> dropped in a Web App's 
+    contained within <b>.dll's</b> or <b>.exe's</b> dropped in a Sharp App's 
     <a href="https://github.com/NetCoreApps/WebApp/tree/master/src/apps/plugins/plugins">/plugins</a> folder which are auto-registered 
     on startup. This source code for plugins used in this App were built from the .NET Core 2.1 projects in the
     <a href="https://github.com/NetCoreApps/WebApp/tree/master/src/example-plugins">/example-plugins</a> folder.
@@ -108,53 +108,60 @@ $("FORM").submit(function(){
     }
 </style>
 
-{{ 6 | to => rows }}
+{{ 8 | to => rows }}
 <div class="tab-content">
     <div class="tab-pane" id="default-scripts" role="tabpanel">
 {{ "live-template" | partial({ rows, className, template:`{{ 'DefaultScripts' | to => method }}
-{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower()) | to => methods }}
+{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower())
+          | to => methods }}
 <table class="table table-striped"><caption>{{ method | methodLinkToSrc }}</caption>
 {{#each methods}}<tr><td>{{FirstParam}}</td><td>{{Body}}</td><td>{{Return}}</td></tr>{{/each}}
 </table>` }) }}
     </div>
     <div class="tab-pane" id="html-scripts" role="tabpanel">
 {{ "live-template" | partial({ rows, className, template:`{{ 'HtmlScripts' | to => method }}
-{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower()) | to => methods }}
+{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower())
+          | to => methods }}
 <table class="table table-striped"><caption>{{ method | methodLinkToSrc }}</caption>
 {{#each methods}}<tr><td>{{FirstParam}}</td><td>{{Body}}</td><td>{{Return}}</td></tr>{{/each}}
 </table>` }) }}
     </div>
     <div class="tab-pane" id="protected-scripts" role="tabpanel">
 {{ "live-template" | partial({ rows, className, template:`{{ 'ProtectedScripts' | to => method }}
-{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower()) | to => methods }}
+{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower())
+          | to => methods }}
 <table class="table table-striped"><caption>{{ method | methodLinkToSrc }}</caption>
 {{#each methods}}<tr><td>{{FirstParam}}</td><td>{{Body}}</td><td>{{Return}}</td></tr>{{/each}}
 </table>` }) }}
     </div>
     <div class="tab-pane" id="info-scripts" role="tabpanel">
 {{ "live-template" | partial({ rows, className, template:`{{ 'InfoScripts' | to => method }}
-{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower()) | to => methods }}
+{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower())
+          | to => methods }}
 <table class="table table-striped"><caption>{{ method | methodLinkToSrc }}</caption>
 {{#each methods}}<tr><td>{{FirstParam}}</td><td>{{Body}}</td><td>{{Return}}</td></tr>{{/each}}
 </table>` }) }}
     </div>
     <div class="tab-pane" id="redis-scripts" role="tabpanel">
 {{ "live-template" | partial({ rows, className, template:`{{ 'RedisScripts' | to => method }}
-{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower()) | to => methods }}
+{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower())
+          | to => methods }}
 <table class="table table-striped"><caption>{{ method | methodLinkToSrc }}</caption>
 {{#each methods}}<tr><td>{{FirstParam}}</td><td>{{Body}}</td><td>{{Return}}</td></tr>{{/each}}
 </table>` }) }}
     </div>
     <div class="tab-pane" id="db-scripts" role="tabpanel">
 {{ "live-template" | partial({ rows, className, template:`{{ 'DbScriptsAsync' | to => method }}
-{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower()) | to => methods }}
+{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower())
+          | to => methods }}
 <table class="table table-striped"><caption>{{ method | methodLinkToSrc }}</caption>
 {{#each methods}}<tr><td>{{FirstParam}}</td><td>{{Body}}</td><td>{{Return}}</td></tr>{{/each}}
 </table>` }) }}
     </div>
     <div class="tab-pane" id="ss-scripts" role="tabpanel">
 {{ "live-template" | partial({ rows, className, template:`{{ 'ServiceStackScripts' | to => method }}
-{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower()) | to => methods }}
+{{ method | methodsAvailable | where => it.Name.lower().contains((nameContains ?? '').lower())
+          | to => methods }}
 <table class="table table-striped"><caption>{{ method | methodLinkToSrc }}</caption>
 {{#each methods}}<tr><td>{{FirstParam}}</td><td>{{Body}}</td><td>{{Return}}</td></tr>{{/each}}
 </table>` }) }}
@@ -394,7 +401,7 @@ function resetContacts(){ $.getJSON("/contacts/reset", fetchContacts) }
 </p>
 
 <pre class="settings"><code>debug true
-name Web App Plugins
+name Sharp App Plugins
 port 5000
 contentRoot ~/../plugins
 webRoot ~/../plugins
@@ -404,7 +411,7 @@ ValidationFeature { ScanAppHostAssemblies: true }
 </code></pre>
 
 <p>
-    All plugins listed in <em>features</em> will be added to your Web App's AppHost in the order they're specified. They can further customized 
+    All plugins listed in <em>features</em> will be added to your Sharp App's AppHost in the order they're specified. They can further customized 
     by adding a separate config entry with the Plugin Name and a JavaScript Object literal to populate the Plugin at registration, e.g
     the config above is equivalent to:
 </p>
@@ -463,7 +470,7 @@ Plugins.Add(new ValidationFeature { ScanAppHostAssemblies = true });</code></pre
 </p>
 
 <p>
-    Other optional plugins registered in this Web App is the metadata Services required for 
+    Other optional plugins registered in this App is the metadata Services required for 
     <a href="https://docs.servicestack.net/openapi">Open API</a>, 
     <a href="https://docs.servicestack.net/postman">Postman</a> as well as
     <a href="https://docs.servicestack.net/corsfeature">support for CORS</a>.
