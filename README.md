@@ -1,4 +1,10 @@
-# plugins
+# This project has moved to
+
+### https://github.com/sharp-apps/plugins
+
+---
+
+## plugins
 
 Plugins shows an example of extending WebApps with Plugins, Filters, ServiceStack Services and other C# extensions
 
